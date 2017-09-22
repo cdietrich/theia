@@ -5,20 +5,22 @@
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
  */
 
-import { AbstractGenerator, FileSystem } from "../common";
+import { AbstractGenerator } from "./abstract-generator";
 
-export abstract class AbstractFrontendGenerator extends AbstractGenerator {
+export class FrontendGenerator extends AbstractGenerator {
 
-    protected doGenerate(fs: FileSystem, frontendModules: Map<string, string>): void {
-        fs.write(this.frontend('index.html'), this.compileIndexHtml(frontendModules))
-        fs.write(this.frontend('index.js'), this.compileIndexJs(frontendModules));
+    generate(): void {
+        const frontendModules = this.model.targetFrontendModules;
+        this.write(this.model.frontend('index.html'), this.compileIndexHtml(frontendModules))
+        this.write(this.model.frontend('index.js'), this.compileIndexJs(frontendModules));
     }
 
     protected compileIndexHtml(frontendModules: Map<string, string>): string {
         return `<!DOCTYPE html>
 <html>
 
-<head>${this.compileIndexHead(frontendModules)}
+<head>${this.compileIndexHead(frontendModules)}${this.ifBrowser(`
+  <script type="text/javascript" src="./require.js" charset="utf-8"></script>`)}
   <script type="text/javascript" src="./bundle.js" charset="utf-8"></script>
 </head>
 
@@ -36,8 +38,7 @@ export abstract class AbstractFrontendGenerator extends AbstractGenerator {
     }
 
     protected compileIndexJs(frontendModules: Map<string, string>): string {
-        return `${this.compileCopyright()}
-// @ts-check
+        return `// @ts-check
 require('reflect-metadata');
 const { Container } = require('inversify');
 const { FrontendApplication } = require('@theia/core/lib/browser');
