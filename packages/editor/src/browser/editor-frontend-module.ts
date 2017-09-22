@@ -15,7 +15,7 @@ import { EditorManagerImpl, EditorManager } from './editor-manager';
 import { EditorRegistry } from './editor-registry';
 import { EditorCommandHandlers } from "./editor-command";
 import { EditorKeybindingContribution, EditorKeybindingContext } from "./editor-keybinding";
-import { bindEditorPreferences } from './editor-preferences'
+import { bindEditorPreferences } from './editor-preferences';
 
 export default new ContainerModule(bind => {
     bindEditorPreferences(bind);
