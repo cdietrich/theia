@@ -5,5 +5,5 @@
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
  */
 
-export const PYTHON_LANGUAGE_ID = 'python';
-export const PYTHON_LANGUAGE_NAME = 'Python';
+export const PYTHON_LANGUAGE_ID = 'python2';
+export const PYTHON_LANGUAGE_NAME = 'Python2';
